@@ -6,7 +6,7 @@
     <StartupObject>adr.Program</StartupObject>
     <Description>A Windows equivalent of adr-tools (https://github.com/npryce/adr-tools)</Description>
     <PackageLicenseExpression>MIT License</PackageLicenseExpression>
-    <AssemblyVersion>1.11.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <Version>1.1.0</Version>
     <PackageTags>adr</PackageTags>
