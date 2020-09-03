@@ -1,3 +1,4 @@
+using adr.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -172,10 +173,12 @@ namespace adr
         }
 
         private static string SanitizeFileName(string title)
-        {
-            return title
-                .Replace(' ', '-')
-                .ToLower();
+        {          
+            var filename = StringUtils.FoldToASCII(title.ToLower());
+
+            filename = FileUtils.SanitizeFilename(filename);
+
+            return filename;
         }
     }
 }
