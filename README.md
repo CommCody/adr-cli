@@ -41,7 +41,13 @@ To create a new ADR that supercedes multiple previous records just use the -s op
 
 This will create a new ADR file that is flagged as superceding ADR 3 and ADR4, and changes the status of both ADRs to indicate that they are superceded by the new ADR. It then opens the new ADR in your editor of choice.
 
-## 3. Further information about commands and options
+## 3. Show a list of ADRs
+
+        adr-cli list
+
+This will show a list of all ADRs in the log with their full path.
+
+## 4. Further information about commands and options
 
 For further information, use the built in help:
 

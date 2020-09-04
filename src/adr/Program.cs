@@ -44,14 +44,23 @@ namespace adr
 
             app.Command("list", (command) =>
             {
-                command.Description = "(Command not implemented)";
+                command.Description = "Show a list of ADRs";
                 command.HelpOption(HelpOption);
+
                 command.OnExecute(() =>
                 {
+                    var docFolder = AdrSettings.Current.DocFolder;
 
-                    app.Out.WriteLine("Command not implemented");
+                    var log = new ArchitectureDecisionLog(System.IO.Path.GetFullPath(docFolder));
 
-                    return (int)ExitCode.NotImplemented;
+                    var records = log.GetRecords();
+
+                    foreach (var record in records)
+                    {
+                        app.Out.WriteLine(record.FullName);
+                    }
+
+                    return (int)ExitCode.Success;
                 });
             });
 
