@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using adr.Adr;
 using adr.Core;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -16,11 +18,12 @@ namespace adr
 
             app.HelpOption(HelpOption);
 
-            app.VersionOption("-v|--version", () => {
+            app.VersionOption("-v|--version", () =>
+            {
                 var assemblyName = typeof(AdrEntry).Assembly.GetName();
 
                 return $"{assemblyName.Name} {assemblyName.Version}";
-                });
+            });
 
             app.Command("init", (command) =>
             {
@@ -61,9 +64,26 @@ namespace adr
 
                 command.OnExecute(() =>
                 {
-                    new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
+                    var docFolder = AdrSettings.Current.DocFolder;
+
+                    AdrManager manager = new AdrManager(System.IO.Path.GetFullPath(docFolder));
+
+                    var newEntry = new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
                         .Write()
                         .Launch();
+
+                    if (supercedes.Values.Count > 0)
+                    {
+                        foreach (var sup in supercedes.Values)
+                        {
+                            int number = 0;
+
+                            if (int.TryParse(sup, out number))
+                            {
+                                manager.SupercedesAdr(number, newEntry);
+                            }
+                        }
+                    }
 
                     return (int)ExitCode.Success;
                 });
