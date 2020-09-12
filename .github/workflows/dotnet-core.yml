@@ -48,6 +48,9 @@ jobs:
     - name: Publish for ${{ matrix.runtime }} single executable
       run: dotnet publish ${{ env.ADR_PROJECT_FILE }} --runtime ${{ matrix.runtime }} -c ${{ env.CONFIGURATION }} --no-restore --no-build /p:PublishSingleFile=true --output ${{ env.OUTPUT_PATH }}/${{ matrix.runtime }}-portable/ --self-contained true /p:PublishTrimmed=true
 
+    - name: Publish for ${{ matrix.runtime }} single executable
+      run: dotnet publish ${{ env.ADR_PROJECT_FILE }} --runtime ${{ matrix.runtime }} -c ${{ env.CONFIGURATION }} --no-restore --no-build /p:PublishSingleFile=true --output ${{ env.OUTPUT_PATH }}/${{ matrix.runtime }}-dependent/ --self-contained false /p:PublishTrimmed=true
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
