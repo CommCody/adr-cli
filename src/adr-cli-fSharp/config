@@ -1,0 +1,3 @@
+﻿config:
+  directory: 'docs/adr'
+  style: 'Nyrgard'

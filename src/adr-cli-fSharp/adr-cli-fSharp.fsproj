@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>adr_cli_fSharp</RootNamespace>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="CommandLineParser" Version="2.8.0" />-->
+    <PackageReference Include="CommandLineParser.FSharp" Version="2.8.0" />
+    <PackageReference Include="FSharp.Configuration" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>
