@@ -60,6 +60,7 @@ namespace adr
                 command.Description = "Create a new ADR file";
                 var title = command.Argument("title", "ADR title");
                 var supercedes = command.Option("-s|--supercedes", "", CommandOptionType.MultipleValue);
+                var links = command.Option("-l|--links", "", CommandOptionType.MultipleValue);
                 command.HelpOption(HelpOption);
 
                 command.OnExecute(() =>
@@ -69,10 +70,9 @@ namespace adr
                     AdrManager manager = new AdrManager(System.IO.Path.GetFullPath(docFolder));
 
                     var newEntry = new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
-                        .Write()
-                        .Launch();
+                        .Write();
 
-                    if (supercedes.Values.Count > 0)
+                    if (supercedes?.Values.Count > 0)
                     {
                         foreach (var sup in supercedes.Values)
                         {
@@ -84,6 +84,21 @@ namespace adr
                             }
                         }
                     }
+
+                    if (links?.Values.Count > 0)
+                    {
+                        foreach (var linkDetails in links.Values)
+                        {
+                            AdrLink link = null;
+
+                            if (AdrLink.TryParse(linkDetails, out link))
+                            {
+                                manager.LinksAdr(newEntry, link);
+                            }
+                        }
+                    }
+
+                    newEntry.Launch();
 
                     return (int)ExitCode.Success;
                 });

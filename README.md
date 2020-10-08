@@ -33,13 +33,29 @@ To create a new ADR that supercedes a previous one (ADR 9, for example), use the
 
         adr-cli new "Use JSON file for config" -s 9
 
-This will create a new ADR file that is flagged as superceding ADR 9, and changes the status of ADR 9 to indicate that it is superceded by the new ADR. It then opens the new ADR in your editor of choice.
+This will create a new ADR file that is flagged as superceding ADR 9, and changes the status of ADR 9 to indicate that it is superceded by the new ADR.
 
 To create a new ADR that supercedes multiple previous records just use the -s option multiple times.
 
         adr-cli new "Commit message best practices" -s 3 -s 4
 
-This will create a new ADR file that is flagged as superceding ADR 3 and ADR4, and changes the status of both ADRs to indicate that they are superceded by the new ADR. It then opens the new ADR in your editor of choice.
+This will create a new ADR file that is flagged as superceding ADR 3 and ADR4, and changes the status of both ADRs to indicate that they are superceded by the new ADR. 
+
+To create a new ADR that links to a previous one (ADR 10, for example), use the -l option.
+
+        adr-cli new "Update library to version 4.3.1" -l "10:Amends:Amended by"
+
+This will create a new ADR file that is flagged as amending ADR 10. Please use the following link format: `TARGET:LINK:REVERSE-LINK` where `TARGET` is the number of linked ADR, `LINK` is the description to add to the new ADR and `REVERSE-LINK` is the description to add to the linked ADR.
+
+To create a new ADR that links multiple previous records just use the -l option multiple times.
+
+        adr-cli new "Commit message best practices" -l "10:Amends:Amended by" -l "11:Clarifies:Clarified by"
+
+Feel free to mix -s and -l options to create appropriate ADR for your needs:
+
+        adr-cli new "Commit message best practices" -s 3 -l "11:Clarifies:Clarified by" -s 4
+
+It then opens the new ADR in your editor of choice.
 
 ## 3. Further information about commands and options
 
