@@ -35,13 +35,14 @@ To create a new ADR that supercedes multiple previous records just use the -s op
 
         adr-cli new "Commit message best practices" -s 3 -s 4
 
-This will create a new ADR file that is flagged as superceding ADR 3 and ADR4, and changes the status of both ADRs to indicate that they are superceded by the new ADR. 
+This will create a new ADR file that is flagged as superceding ADR 3 and ADR4, and changes the status of both ADRs to indicate that they are superceded by the new ADR.
 
 To create a new ADR that links to a previous one (ADR 10, for example), use the -l option.
 
         adr-cli new "Update library to version 4.3.1" -l "10:Amends:Amended by"
 
-This will create a new ADR file that is flagged as amending ADR 10. Please use the following link format: `TARGET:LINK:REVERSE-LINK` where `TARGET` is the number of linked ADR, `LINK` is the description to add to the new ADR and `REVERSE-LINK` is the description to add to the linked ADR.
+This will create a new ADR file that is flagged as amending ADR 10.
+Please use the following link format: `TARGET:LINK:REVERSE-LINK` where `TARGET` is the number of linked ADR, `LINK` is the description to add to the new ADR and `REVERSE-LINK` is the description to add to the linked ADR.
 
 To create a new ADR that links multiple previous records just use the -l option multiple times.
 
