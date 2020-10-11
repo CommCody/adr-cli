@@ -14,7 +14,7 @@ namespace adr
         {
             var app = new CommandLineApplication();
             app.Name = "adr-cli";
-            app.Description = "A Windows equivalent of adr-tools (https://github.com/npryce/adr-tools)";
+            app.Description = "A .Net equivalent of adr-tools (https://github.com/npryce/adr-tools)";
 
             app.HelpOption(HelpOption);
 
