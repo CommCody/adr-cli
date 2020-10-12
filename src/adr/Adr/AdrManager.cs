@@ -7,7 +7,7 @@ using System.Text;
 
 namespace adr.Adr
 {
-    internal class AdrManager
+    internal class ArchitectureDecisionLog
     {
         private string _docFolder;
 
