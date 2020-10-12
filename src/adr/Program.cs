@@ -66,7 +66,7 @@ namespace adr
                 {
                     var docFolder = AdrSettings.Current.DocFolder;
 
-                    AdrManager manager = new AdrManager(System.IO.Path.GetFullPath(docFolder));
+                    var manager = new ArchitectureDecisionLog(System.IO.Path.GetFullPath(docFolder));
 
                     var newEntry = new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
                         .Write()
