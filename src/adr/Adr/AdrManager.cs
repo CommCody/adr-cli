@@ -11,7 +11,7 @@ namespace adr.Adr
     {
         private string _docFolder;
 
-        public AdrManager(string docFolder)
+        public ArchitectureDecisionLog(string docFolder)
         {
             this._docFolder = docFolder ?? throw new ArgumentNullException(nameof(docFolder));
 
