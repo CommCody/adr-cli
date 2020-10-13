@@ -4,6 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>    
     <StartupObject>adr.Program</StartupObject>
+    <Description>A .Net equivalent of adr-tools (https://github.com/npryce/adr-tools)</Description>
+    <PackageLicenseExpression>MIT License</PackageLicenseExpression>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
+    <PackageTags>adr</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.0.0" />

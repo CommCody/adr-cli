@@ -1,3 +1,4 @@
+using adr.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +25,8 @@ namespace adr
         }
 
         public string Title { get; set; } = "Record Architecture Decisions";
+
+        public FileInfo File { get; set; } = null;
 
         public AdrEntry Write()
         {
@@ -68,7 +71,7 @@ namespace adr
         private void WriteInitialAdrFile(int fileNumber)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(this.fileName)));
-            using var writer = File.CreateText(this.fileName);
+            using var writer = System.IO.File.CreateText(this.fileName);
             {
                 writer.WriteLine($"# {fileNumber}. {this.Title}");
                 writer.WriteLine();
@@ -91,12 +94,14 @@ namespace adr
                 writer.WriteLine();
                 writer.WriteLine("See Michael Nygard's article, linked above.");
             }
+
+            this.File = new FileInfo(Path.GetFullPath(this.fileName));
         }
 
         private void WriteAdrFile(int fileNumber)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(this.fileName)));
-            using var writer = File.CreateText(this.fileName);
+            using var writer = System.IO.File.CreateText(this.fileName);
             {
                 writer.WriteLine($"# {fileNumber}. {this.Title}");
                 writer.WriteLine();
@@ -118,6 +123,8 @@ namespace adr
                 writer.WriteLine();
                 writer.WriteLine("{consequences}");
             }
+
+            this.File = new FileInfo(Path.GetFullPath(this.fileName));
         }
 
         public AdrEntry Launch()
@@ -172,10 +179,12 @@ namespace adr
         }
 
         private static string SanitizeFileName(string title)
-        {
-            return title
-                .Replace(' ', '-')
-                .ToLower();
+        {          
+            var filename = StringUtils.FoldToASCII(title.ToLower());
+
+            filename = FileUtils.SanitizeFilename(filename);
+
+            return filename;
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+﻿using System;
+using System.Runtime.CompilerServices;
+using adr.Adr;
+using adr.Core;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace adr
 {
@@ -10,13 +14,20 @@ namespace adr
         {
             var app = new CommandLineApplication();
             app.Name = "adr-cli";
-            app.Description = "";
+            app.Description = "A .Net equivalent of adr-tools (https://github.com/npryce/adr-tools)";
 
             app.HelpOption(HelpOption);
 
+            app.VersionOption("-v|--version", () =>
+            {
+                var assemblyName = typeof(AdrEntry).Assembly.GetName();
+
+                return $"{assemblyName.Name} {assemblyName.Version}";
+            });
+
             app.Command("init", (command) =>
             {
-                command.Description = "Init it";
+                command.Description = "Initialize an ADR repository in the given directory";
                 var directory = command.Argument("[directory]", "");
                 command.HelpOption(HelpOption);
                 command.OnExecute(() =>
@@ -27,58 +38,103 @@ namespace adr
                     new AdrEntry(TemplateType.Adr)
                         .Write()
                         .Launch();
-                    return 0;
+                    return (int)ExitCode.Success;
                 });
             });
 
             app.Command("list", (command) =>
             {
-                command.Description = "";
-                command.OnExecute(() => {
-                    return 0;
+                command.Description = "(Command not implemented)";
+                command.HelpOption(HelpOption);
+                command.OnExecute(() =>
+                {
+
+                    app.Out.WriteLine("Command not implemented");
+
+                    return (int)ExitCode.NotImplemented;
                 });
             });
 
             app.Command("new", (command) =>
             {
-                command.Description = "";
-                var title = command.Argument("title", "");
+                command.Description = "Create a new ADR file";
+                var title = command.Argument("title", "ADR title");
                 var supercedes = command.Option("-s|--supercedes", "", CommandOptionType.MultipleValue);
                 command.HelpOption(HelpOption);
 
                 command.OnExecute(() =>
                 {
-                    new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
+                    var docFolder = AdrSettings.Current.DocFolder;
+
+                    var manager = new ArchitectureDecisionLog(System.IO.Path.GetFullPath(docFolder));
+
+                    var newEntry = new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
                         .Write()
                         .Launch();
-                    return 0;
+
+                    if (supercedes.Values.Count > 0)
+                    {
+                        foreach (var sup in supercedes.Values)
+                        {
+                            int number = 0;
+
+                            if (int.TryParse(sup, out number))
+                            {
+                                manager.SupercedesAdr(number, newEntry);
+                            }
+                        }
+                    }
+
+                    return (int)ExitCode.Success;
                 });
             });
 
             app.Command("link", (command) =>
             {
-                command.Description = "";
+                command.Description = "(Command not implemented)";
                 command.OnExecute(() =>
                 {
-                    return 0;
+                    app.Out.WriteLine("Command not implemented");
+
+                    return (int)ExitCode.NotImplemented;
                 });
             });
 
             app.Command("generate", (command) =>
             {
-                command.Description = "";
+                command.Description = "(Command not implemented)";
                 command.OnExecute(() =>
                 {
-                    return 0;
+                    app.Out.WriteLine("Command not implemented");
+
+                    return (int)ExitCode.NotImplemented;
                 });
             });
 
             app.OnExecute(() =>
             {
                 app.ShowHelp();
-                return 0;
+                return (int)ExitCode.Success;
             });
-            app.Execute(args);
+
+            try
+            {
+                Environment.ExitCode = app.Execute(args);
+            }
+            catch (CommandParsingException ex)
+            {
+                app.Out.WriteLine($"[ERROR] Cannot parse or recognize the given command: {ex.Message}");
+                app.ShowHelp();
+
+                Environment.ExitCode = (int)ExitCode.ParsingError;
+            }
+            catch (Exception ex)
+            {
+                app.Out.WriteLine($"[ERROR] Cannot execute the given command: {ex.Message}");
+                app.ShowHelp();
+
+                Environment.ExitCode = (int)ExitCode.Error;
+            }
         }
     }
 }
