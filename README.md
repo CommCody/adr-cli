@@ -8,9 +8,8 @@ This is a Windows equivalent of [adr-tools](https://github.com/npryce/adr-tools)
 
 Use the `adr-cli` command to manage ADRs.  Try running `adr-cli --help`.
 
-ADRs are stored in a subdirectory of your project as Markdown files. 
-The default directory is `doc/adr`, but you can specify the directory
-when you initialise the ADR log.
+ADRs are stored in a subdirectory of your project as Markdown files.
+The default directory is `doc/adr`, but you can specify the directory when you initialise the ADR log.
 
 ## 1. Initialize a new ADR log
 
@@ -18,10 +17,7 @@ Create an ADR directory in the root of your project:
 
         adr-cli init doc/architecture/decisions
 
-This will create a directory named `doc/architecture/decisions` 
-containing the first ADR, which records that you are using ADRs
-to record architectural decisions and links to 
-[Michael Nygard's article on the subject][ADRs].
+This will create a directory named `doc/architecture/decisions` containing the first ADR, which records that you are using ADRs to record architectural decisions and links to [Michael Nygard's article on the subject][ADRs].
 
 ## 2. Create Architecture Decision Records
 
@@ -68,7 +64,6 @@ This will show a list of all ADRs in the log with their full path.
 For further information, use the built in help:
 
         adr-cli --help
-
 
 # Publishing
 
