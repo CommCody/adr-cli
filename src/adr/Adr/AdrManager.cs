@@ -7,11 +7,11 @@ using System.Text;
 
 namespace adr.Adr
 {
-    internal class AdrManager
+    internal class ArchitectureDecisionLog
     {
         private string _docFolder;
 
-        public AdrManager(string docFolder)
+        public ArchitectureDecisionLog(string docFolder)
         {
             this._docFolder = docFolder ?? throw new ArgumentNullException(nameof(docFolder));
 
@@ -30,7 +30,7 @@ namespace adr.Adr
         {
             var needle = adrNumber.ToString().PadLeft(4, '0');
 
-            var allFiles = this.GetList();
+            var allFiles = this.GetRecords();
 
             var file = allFiles.FirstOrDefault(f => f.Name.StartsWith(needle));
 
@@ -48,7 +48,7 @@ namespace adr.Adr
         /// Get all markdown files
         /// </summary>
         /// <returns>an array of all markdown files' <see cref="FileInfo"/></returns>
-        internal FileInfo[] GetList()
+        internal FileInfo[] GetRecords()
         {
             var files = new FileInfo[0];
 

@@ -14,7 +14,7 @@ namespace adr
         {
             var app = new CommandLineApplication();
             app.Name = "adr-cli";
-            app.Description = "A Windows equivalent of adr-tools (https://github.com/npryce/adr-tools)";
+            app.Description = "A .Net equivalent of adr-tools (https://github.com/npryce/adr-tools)";
 
             app.HelpOption(HelpOption);
 
@@ -51,9 +51,9 @@ namespace adr
                 {
                     var docFolder = AdrSettings.Current.DocFolder;
 
-                    AdrManager manager = new AdrManager(System.IO.Path.GetFullPath(docFolder));
+                    var log = new ArchitectureDecisionLog(System.IO.Path.GetFullPath(docFolder));
 
-                    var records = manager.GetList();
+                    var records = log.GetRecords();
 
                     foreach (var record in records)
                     {
@@ -75,7 +75,7 @@ namespace adr
                 {
                     var docFolder = AdrSettings.Current.DocFolder;
 
-                    AdrManager manager = new AdrManager(System.IO.Path.GetFullPath(docFolder));
+                    var manager = new ArchitectureDecisionLog(System.IO.Path.GetFullPath(docFolder));
 
                     var newEntry = new AdrEntry(TemplateType.New) { Title = title.Value ?? "" }
                         .Write()
