@@ -80,6 +80,29 @@ namespace adr.Adr
         }
 
         /// <summary>
+        /// Links an existing record with a new one
+        /// </summary>
+        /// <param name="linkedRecordNumber">the number of the linked record</param>
+        /// <param name="newRecord">the new record</param>
+        /// <param name="link">the link details</param>
+        internal void LinksAdr(AdrEntry newRecord, AdrLink link)
+        {
+            if (newRecord is null)
+            {
+                throw new ArgumentNullException(nameof(newRecord));
+            }
+
+            if (link is null)
+            {
+                throw new ArgumentNullException(nameof(link));
+            }
+
+            AdrEntry linkedRecord = this.SearchAdr(link.Number);
+
+            this.LinksAdr(linkedRecord, newRecord, link);
+        }
+
+        /// <summary>
         /// Load entry from file
         /// </summary>
         /// <param name="file">the source <see cref="FileInfo"/></param>
@@ -104,7 +127,7 @@ namespace adr.Adr
         /// <summary>
         /// Supercedes an existing record with a new one
         /// </summary>
-        /// <param name="supercededRecordNumber">the superceded record</param>
+        /// <param name="supercededRecord">the superceded record</param>
         /// <param name="newRecord">the new record</param>
         private void SupercedesAdr(AdrEntry supercededRecord, AdrEntry newRecord)
         {
@@ -170,6 +193,51 @@ namespace adr.Adr
             txtLines.RemoveRange(statusLineIndex + 1, elementsToRemove);
 
             File.WriteAllLines(fileName, txtLines);
+        }
+
+        /// <summary>
+        /// Links an existing record with a new one
+        /// </summary>
+        /// <param name="linkedRecord">the linked record</param>
+        /// <param name="newRecord">the new record</param>
+        /// <param name="link">the link details</param>
+        private void LinksAdr(AdrEntry linkedRecord, AdrEntry newRecord, AdrLink link)
+        {
+            if (linkedRecord is null)
+            {
+                throw new ArgumentNullException(nameof(linkedRecord));
+            }
+
+            if (newRecord is null)
+            {
+                throw new ArgumentNullException(nameof(newRecord));
+            }
+
+            if (link is null)
+            {
+                throw new ArgumentNullException(nameof(link));
+            }
+
+            FileUtils.InsertTextToFile(
+                newRecord.File.FullName,
+                "## Context",
+                new[] {
+                    $"{link.LinkDescription}: [{linkedRecord.Title}]({linkedRecord.File.Name})",
+                    string.Empty
+                },
+                FileUtils.TextInsertionMode.Prepend
+                );
+
+            FileUtils.InsertTextToFile(
+                linkedRecord.File.FullName,
+                "## Context",
+                new[] {
+                    string.Empty,
+                    $"{link.ReverseLinkDescription}: [{newRecord.Title}]({newRecord.File.Name})",
+                    string.Empty
+                },
+                FileUtils.TextInsertionMode.Prepend
+                );
         }
     }
 }
